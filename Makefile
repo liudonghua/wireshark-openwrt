@@ -26,7 +26,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/wireshark/default
   SECTION:=net
   CATEGORY:=Network
-  DEPENDS:=+librt +libpcap +glib2 +tcpdump +libtool
+  DEPENDS:=+librt +libpcap +glib2 +tcpdump +lua
   URL:=http://www.wireshark.org/
   TITLE:=Network monitoring and data  tool
 endef
@@ -34,10 +34,6 @@ endef
 define Package/wireshark
   $(call Package/wireshark/default)
 endef
-
-#define Package/tshark
-#  $(call Package/wireshark/default)
-#endef
 
 CONFIGURE_ARGS+= \
 	--enable-tshark \
@@ -71,7 +67,7 @@ MAKE_FLAGS += \
 
 define Build/Compile
 	cd $(PKG_BUILD_DIR)/tools/lemon&&make
-	+$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR) \
+	$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR) \
 		DESTDIR="$(PKG_INSTALL_DIR)" \
 		CC="$(TARGET_CC)" \
 		install
@@ -85,11 +81,7 @@ define Package/wireshark/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/rawshark $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/reordercap $(1)/usr/bin/
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/*.so* $(1)/usr/lib
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/wireshark/plugins/$(PKG_VERSION)/*.so* $(1)/usr/lib
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/lib*.so* $(1)/usr/lib
 endef
 
-#Package/tshark/install = $(Package/wireshark/install)
-
-#$(eval $(call BuildPackage,tshark))
 $(eval $(call BuildPackage,wireshark))
