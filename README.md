@@ -1,1 +1,1 @@
-# wireshark 2.2.1 for openwrt cc branch.
+# wireshark 2.2.1 for openwrt x86 cc branch.
