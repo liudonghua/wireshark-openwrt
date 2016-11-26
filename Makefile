@@ -19,27 +19,29 @@ PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=COPYING
 
 PKG_FIXUP:=autoreconf
-PKG_BUILD_PARALLEL:=1
+
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/wireshark/default
+define Package/wireshark
   SECTION:=net
   CATEGORY:=Network
-  DEPENDS:=+librt +libpcap +glib2 +tcpdump +lua
+  DEPENDS:=+librt +libpcap +glib2 +tcpdump +libc
   URL:=http://www.wireshark.org/
   TITLE:=Network monitoring and data  tool
 endef
 
-define Package/wireshark
-  $(call Package/wireshark/default)
-endef
-
 CONFIGURE_ARGS+= \
 	--enable-tshark \
+	--enable-dumpcap \
+	--enable-setuid-install \
+ 	--disable-gtk2 \
+ 	--disable-androiddump \
+	--disable-randpktdump \
 	--disable-ipv6 \
+	--without-lua \
 	--disable-glibtest \
-	--disable-plugins \
+	--without-plugins \
 	--disable-wireshark \
 	--disable-gtktest \
 	--disable-editcap \
@@ -82,6 +84,7 @@ define Package/wireshark/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/reordercap $(1)/usr/bin/
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/lib*.so* $(1)/usr/lib
+#	$(CP) $(PKG_INSTALL_DIR)/usr/lib/wireshark/plugins/$(PKG_VERSION)/*.so $(1)/usr/lib
 endef
 
 $(eval $(call BuildPackage,wireshark))
