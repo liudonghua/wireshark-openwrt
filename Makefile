@@ -26,7 +26,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/wireshark
   SECTION:=net
   CATEGORY:=Network
-  DEPENDS:=+librt +libpcap +glib2 +tcpdump +libc
+  DEPENDS:=+librt +libcap +glib2 +tcpdump +libc @TARGET_x86
   URL:=http://www.wireshark.org/
   TITLE:=Network monitoring and data  tool
 endef
