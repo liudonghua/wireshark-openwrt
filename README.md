@@ -1,7 +1,7 @@
 # wireshark 2.2.1 for openwrt
 
 ## Description 
- [wireshark](https://www.wireshark.org/) 2.2.1 for openwrtx86 cc branch.
+ [wireshark](https://www.wireshark.org/) 2.2.1 for openwrt 18.06 branch on arch X86.
  
  ## Build
  ``` shell
